@@ -1,0 +1,173 @@
+---
+title: "Nuclear_Weapons_Today"
+author: "Anna Oksbjerg Tarp"
+date: "2022-12-05"
+output: html_document
+---
+##Load libraries
+```{r}
+library(tidyverse)
+library(rvest)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(janitor)
+library(readr)
+library(ggplot2)
+```
+
+##Read csv 
+I found this data on https://ourworldindata.org/nuclear-weapons and want to investigate the nuclear possession in the world from the years 1945-2022.
+
+```{r}
+X2022 <- read_csv("~/Dropbox/3. semester/Digitale metoder/Projekt/Final Project/2022.csv")
+```
+
+I only need the data for Russia and USA, so i deleted the other countries from the data set and made it tidy.
+```{r}
+Russia <- read_csv2("~/Dropbox/Russia.csv")
+USA <- read_csv2("~/Dropbox/USA.csv")
+```
+
+##Visualizations 
+
+Now I want to make a visualization over Russian's nuclear possession. I get the information i need on this webside:  https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html 
+
+##Russia
+```{r}
+Russia %>% 
+ggplot(aes(x=Year, y= Nuclear_weapons))+ 
+    geom_col()+
+labs(title="Russia", 
+         y = "Nuclear weapon possession", 
+         x = "Year")
+  
+```
+To make it stand out from my graph on the American nuclear possession, i want to color the graph red.
+##Color
+```{r}
+Russia %>% 
+ggplot(aes(x=Year, y= Nuclear_weapons))+ 
+    geom_col()+
+labs(title="Russia", 
+         y = "Nuclear weapon possession", 
+         x = "Year")+
+geom_col(fill = "red")
+```
+
+Now it's time to do a visualization over USA's nuclear weapon possession from 1945-2022 
+##USA
+
+```{r}
+USA %>% 
+ggplot(aes(x=Year, y= Nuclear_weapons))+ 
+    geom_col()+
+labs(title="USA", 
+         y = "Nuclear weapon possession", 
+         x = "Year")+
+  geom_col(fill = "blue")
+```
+Now i want to make a line diagram that shows the Russian and the American nuclear weapon possession from 1945-2022 
+
+##Line diagram 
+
+```{r}
+USA %>% 
+  ggplot()+
+    geom_line(aes(x=Year, y= Nuclear_weapons))+
+  geom_line(data = Russia,aes(x=Year, y= Nuclear_weapons))+
+  labs(title = "USA and Russia",
+       y= "Newclear weapon possession",
+       x="Year")
+  
+
+```
+
+But it's not possible to tell which line is Russia and which is USA. So I am going to color Russia red and USA blue. 
+
+```{r}
+USA %>% 
+  ggplot()+
+   geom_line(aes(x=Year, y= Nuclear_weapons))+
+  geom_line(data = Russia,aes(x=Year, y= Nuclear_weapons, colour =  "Russia"))+
+  geom_line(data = USA,aes(x=Year, y= Nuclear_weapons, colour = "USA"))+
+  scale_colour_manual("", values = c("Russia"="red", "USA"="blue")) +
+  labs(title = "USA and Russia",
+       y= "Newclear weapon possession",
+       x="Year")
+
+```
+
+Now it's easy to see the weapon stockpiles of both countries. It doesn't look so scary today as when the Cold War was at it's peak in the 1980's. But if we compare the Russian and American stockpile of nuclear weapons to other countries, USA and Russia deffently stand out.
+##USA & Russia vs. other countries
+
+I wanted to see how many deployed strategic nuclear weapons China, France, India, Israel, North Korea, Pakistan, Russia, UK and USA has in 2022. The reason why these 9 countries are interesting to look at is because these are the only countries who possesses nuclear weapons today (as we know of). Therefore, i downloaded a data set to visualize the countries' weapon possessions. 
+I have data from our world in data: https://ourworldindata.org/nuclear-weaponsshowing There is data over the amount of "Deployed strategic warheads", "Deployed nonstrategic warheads", "Nondeployed warheads", and "Retired warheads". I find it most interesting to look at the "Deployed strategic warheads"
+I have created a new data sheet called "Other_countries" containing the data from the 9 countries possessing nuclear weapons 
+
+```{r}
+Other_countries <- read_csv2("~/Desktop/9 lande .csv")
+Other_countries %>% 
+ggplot(aes(x=Entity, y= nuclear_weapons_depl_strat))+ 
+    geom_col()+
+labs(title="9 countries", 
+         y = "Deployed strategic warheads", 
+         x = "Countries")
+```
+If we want to look at the non deployed nuclear weapons, Russia has more than USA
+##Deployed nonstrategic warheads
+```{r}
+Other_countries <- read_csv2("~/Desktop/9 lande .csv")
+Other_countries %>% 
+ggplot(aes(x=Entity, y= nuclear_weapons_reserve_nondepl))+ 
+    geom_col()+
+labs(title="9 countries", 
+         y = "Deployed nonstrategic warheads", 
+         x = "Countries")
+```
+##Nuclear disarmament agreements 
+If we look at the nuclear weapons on a historical perspective again, i would like to see if the six disarmament agreements between USA and Russia has any effect on the American and Russian nuclear stockpiles during the Cold War. After the Cold Wars's ending, the two super powers made three more disarmament agreements. The disarmament agreements were in the years of 1963, 1968, 1972, 1979, 1987, 1991, 1993, 2002, 2010. I used this https://www.discoverbits.in/2373/r-how-to-add-legend-to-geom_vline-in-ggplot webside to get the code for the dotted lines who symbolises the disarmament agreements. 
+
+```{r}
+USA %>% 
+  ggplot()+
+   geom_line(aes(x=Year, y= Nuclear_weapons))+
+  geom_line(data = Russia,aes(x=Year, y= Nuclear_weapons, colour =  "Russia"))+
+  geom_line(data = USA,aes(x=Year, y= Nuclear_weapons, colour = "USA"))+
+  scale_colour_manual("", values = c("Russia"="red", "USA"="blue")) +
+  labs(title = "USA and Russia",
+       y= "Newclear weapon possession",
+       x="Year")+
+   geom_vline(xintercept = c( 1963, 1968, 1972, 1979, 1987, 1991, 1993, 2002, 2010), linetype = "dotted")
+
+```
+We can see on this visualization that Russia didn't really disarm their nuclear stockpile in connection with the first four disarmament agreements. But in 1987 can we see a drastic change. USA did as well. This was the  INF-agreement (Intermediate-range Nuclear Forces), and apparently after that, the Russian stockpile was reduced significantly. I want to mark that out on my visualization. For that i used the code from this webside: https://www.geeksforgeeks.org/change-font-size-for-annotation-using-ggplot2-in-r/  I also added all the years from 1945-2022 on the y-axis to make it easier to see the development throughout the years.  
+
+
+
+```{r}
+USA %>% 
+  ggplot()+
+   geom_line(aes(x=Year, y= Nuclear_weapons))+
+  geom_line(data = Russia,aes(x=Year, y= Nuclear_weapons, colour =  "Russia"))+
+  geom_line(data = USA,aes(x=Year, y= Nuclear_weapons, colour = "USA"))+
+  geom_vline(aes(xintercept =  1963, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1968, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1972, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1979, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1987, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1991, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  1993, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  2002, color = "Disarmament Agreements"), linetype = "dashed") +
+  geom_vline(aes(xintercept =  2010, color = "Disarmament Agreements"), linetype = "dashed") +
+  annotate("text", x= 1987, y= 30000, label = "INF-agreement", angle = 90, size= 4) +
+  scale_colour_manual("", values = c("Russia"="red", "USA"="blue", "Disarmament Agreements"="grey")) +
+  theme(axis.text.x = element_text(angle = 90, vjust = .5, hjust=.5, size = 6)) +
+  scale_x_continuous("Year", labels = USA$Year, breaks = USA$Year)+
+  labs(title = "USA and Russia",
+       y= "Newclear weapon possession",
+       x="Year")
+```
+##Conclusion 
+I can now conclude off of my visualizations, that the disarmament agreements didn't make Russia reduce their nuclear stockpile, before the INF-agreement in 1987. Actually the Russian nuclear stockpile grew drastically until the INF-agreement. After the Cold War ended in 1991, the possessions of nuclear weapons decreased both for USA and Russia. 
+
