@@ -102,7 +102,7 @@ Now it's easy to see the weapon stockpiles of both countries. It doesn't look so
 ##USA & Russia vs. other countries
 
 I wanted to see how many deployed strategic nuclear weapons China, France, India, Israel, North Korea, Pakistan, Russia, UK and USA have in 2022. The reason why these 9 countries are interesting to look at is because these are the only countries who possesses nuclear weapons today (as we know of). Therefore, i downloaded a dataset to visualize the countries' weapon possessions. 
-I have data from our world in data: https://ourworldindata.org/nuclear-weaponsshowing There is data over the amount of "Deployed strategic warheads", "Deployed nonstrategic warheads", "Nondeployed warheads", and "Retired warheads". I find it most interesting to look at the "Deployed strategic warheads"
+I have data from Our World in Data: https://ourworldindata.org/nuclear-weaponsshowing There is data over the amount of "Deployed strategic warheads", "Deployed nonstrategic warheads", "Nondeployed warheads", and "Retired warheads". I find it most interesting to look at the "Deployed strategic warheads"
 I have created a new data sheet called "Other_countries" containing the data from the 9 countries possessing nuclear weapons 
 
 
@@ -127,7 +127,7 @@ labs(title="9 countries",
          x = "Countries")
 ```
 ##Nuclear disarmament agreements 
-If we look at the nuclear weapons on a historical perspective again, i would like to see if the six disarmament agreements between USA and Russia has any effect on the American and Russian nuclear stockpiles during the Cold War. After the Cold Wars's ending, the two super powers made three more disarmament agreements. The disarmament agreements were in the years of 1963, 1968, 1972, 1979, 1987, 1991, 1993, 2002, 2010. I used this https://www.discoverbits.in/2373/r-how-to-add-legend-to-geom_vline-in-ggplot webside to get the code for the dotted lines which symbolizes the disarmament agreements. 
+If we look at the nuclear weapons on a historical perspective again, i would like to see if the six disarmament agreements between USA and Russia has any effect on the American and Russian nuclear stockpiles during the Cold War. After the Cold Wars's ending, the two super powers made three more disarmament agreements. The disarmament agreements were in the years of 1963, 1968, 1972, 1979, 1987, 1991, 1993, 2002, 2010. I used this https://www.discoverbits.in/2373/r-how-to-add-legend-to-geom_vline-in-ggplot website to get the code for the dotted lines which symbolizes the disarmament agreements. 
 
 ```{r}
 USA %>% 
@@ -142,7 +142,7 @@ USA %>%
    geom_vline(xintercept = c( 1963, 1968, 1972, 1979, 1987, 1991, 1993, 2002, 2010), linetype = "dotted")
 
 ```
-We can see on this visualization that Russia didn't really disarm their nuclear stockpile in connection with the first four disarmament agreements. But in 1987 can we see a drastic change. USA did as well. This was the  INF-agreement (Intermediate-range Nuclear Forces), and apparently after that, the Russian, aswell as the American stockpile was reduced significantly. I want to mark that disarmament agreement out on my visualization. For that i used the code from this webside: https://www.geeksforgeeks.org/change-font-size-for-annotation-using-ggplot2-in-r/  I also added all the years from 1945-2022 on the y-axis to make it easier to see the development throughout the years.  
+We can see on this visualization that Russia didn't really disarm their nuclear stockpile in connection with the first four disarmament agreements. But in 1987 can we see a drastic change. USA did as well. This was the  INF-agreement (Intermediate-range Nuclear Forces), and apparently after that, the Russian, aswell as the American stockpile was reduced significantly. I want to mark that disarmament agreement out on my visualization. For that i used the code from this website: https://www.geeksforgeeks.org/change-font-size-for-annotation-using-ggplot2-in-r/  I also added all the years from 1945-2022 on the y-axis to make it easier to see the development throughout the years.  
 
 
 
